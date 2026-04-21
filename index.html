@@ -22,7 +22,7 @@
         <div class="loader-text">INITIALIZING BLUESKIES SERVER...</div>
     </div>
 
-    <!-- Live Telemetry Widget (Fixed during specific scroll) -->
+    <!-- Live Telemetry Widget -->
     <div class="telemetry-widget">
         <div class="telemetry-header">LIVE TELEMETRY</div>
         <div class="telemetry-row">
@@ -45,13 +45,31 @@
             <div class="hero-bg parallax-bg" style="background-image: url('./assets/server_rack.png')"></div>
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="title-word">BLUE</span><span class="title-word outline">SKIES</span>
+                    <span class="title-word magnetic">BLUE</span><span class="title-word outline magnetic">SKIES</span>
                 </h1>
                 <p class="hero-subtitle">Next-Generation Server Infrastructure</p>
                 <div class="scroll-indicator">
                     <div class="mouse">
                         <div class="wheel"></div>
                     </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Velocity Marquee Section -->
+        <section class="section marquee-section">
+            <div class="marquee" data-direction="-1">
+                <div class="marquee-inner">
+                    <span>HIGH PERFORMANCE BARE METAL AUTOMATION &bull;&nbsp;</span>
+                    <span>HIGH PERFORMANCE BARE METAL AUTOMATION &bull;&nbsp;</span>
+                    <span>HIGH PERFORMANCE BARE METAL AUTOMATION &bull;&nbsp;</span>
+                </div>
+            </div>
+            <div class="marquee" data-direction="1">
+                <div class="marquee-inner outline-text">
+                    <span>QUANTUM SECURE INFRASTRUCTURE EDGE MESH &bull;&nbsp;</span>
+                    <span>QUANTUM SECURE INFRASTRUCTURE EDGE MESH &bull;&nbsp;</span>
+                    <span>QUANTUM SECURE INFRASTRUCTURE EDGE MESH &bull;&nbsp;</span>
                 </div>
             </div>
         </section>
@@ -65,7 +83,10 @@
                         <p>Powered by ultra-low latency sub-frame routing protocols and specialized bare-metal instances designed for absolute computational dominance.</p>
                     </div>
                 </div>
-                <div class="panel-img panel-2" style="background-image: url('./assets/cyber_data.png')"></div>
+                <!-- Kinetic Clip Reveal Image -->
+                <div class="panel-img panel-2 clip-reveal">
+                    <div class="inner-img" style="background-image: url('./assets/cyber_data.png')"></div>
+                </div>
                 <div class="horizontal-panel panel-3">
                     <div class="panel-content">
                         <h2>Impenetrable <br/><span class="highlight">Security</span></h2>
@@ -83,38 +104,38 @@
 
         <!-- Globe.gl Node Map -->
         <section class="section map-section" style="position: relative;">
-            <h2 class="section-title centered glow-text" style="z-index: 10; position: absolute; top: 50px; left: 50%; transform: translateX(-50%); pointer-events: none;">Global Traffic Intelligence</h2>
-            <div id="globe-container" style="width: 100vw; height: 100vh; cursor: move;"></div>
+            <h2 class="section-title centered glow-text magnetic" style="z-index: 10; position: absolute; top: 50px; left: 50%; transform: translateX(-50%); pointer-events: none;">Global Traffic Intelligence</h2>
+            <div id="globe-container" style="width: 100vw; height: 100vh; margin-top: 50px; cursor: move;"></div>
         </section>
 
-        <!-- 3D Compute Tiers (Vanilla-Tilt) -->
-        <section class="section tiers-section">
-            <h2 class="section-title centered">Compute <span class="highlight">Tiers</span></h2>
-            <div class="tier-container">
-                <div class="tier-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
+        <!-- 3D Compute Tiers (Deck Stacking Setup) -->
+        <section class="section tiers-section deck-section">
+            <h2 class="section-title centered">Compute <span class="highlight magnetic" style="display:inline-block">Tiers</span></h2>
+            <div class="deck-container">
+                <div class="tier-card stacked-card card-1" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
                     <h3>Sigma</h3>
                     <p class="price">$19<span class="per">/mo</span></p>
                     <ul class="features">
                         <li>16 Cores</li><li>64GB RAM</li><li>10Gbps Uplink</li>
                     </ul>
-                    <a href="#" class="tier-btn">Deploy Node</a>
+                    <a href="#" class="tier-btn magnetic">Deploy Node</a>
                 </div>
-                <div class="tier-card featured" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
+                <div class="tier-card stacked-card card-2 featured" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
                     <div class="featured-badge">MOST POPULAR</div>
                     <h3>Quantum</h3>
                     <p class="price">$49<span class="per">/mo</span></p>
                     <ul class="features">
                         <li>64 Cores</li><li>256GB RAM</li><li>40Gbps Uplink</li>
                     </ul>
-                    <a href="#" class="tier-btn">Deploy Node</a>
+                    <a href="#" class="tier-btn magnetic">Deploy Node</a>
                 </div>
-                <div class="tier-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
+                <div class="tier-card stacked-card card-3" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
                     <h3>Zenith</h3>
                     <p class="price">$149<span class="per">/mo</span></p>
                     <ul class="features">
                         <li>128 Cores</li><li>1TB RAM</li><li>100Gbps Uplink</li>
                     </ul>
-                    <a href="#" class="tier-btn">Deploy Node</a>
+                    <a href="#" class="tier-btn magnetic">Deploy Node</a>
                 </div>
             </div>
         </section>
@@ -132,14 +153,14 @@
         <footer class="footer">
             <div class="footer-cta">
                 <h2 class="cta-text">Unleash the Power</h2>
-                <a href="#" class="btn magnetic-btn">Get Started <span class="btn-glow"></span></a>
+                <a href="#" class="btn magnetic">Get Started <span class="btn-glow"></span></a>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 BlueSkies Server Infrastructure</p>
                 <div class="links">
-                    <a href="#">Privacy Dashboard</a>
-                    <a href="#">TOS</a>
-                    <a href="#">System Status</a>
+                    <a href="#" class="magnetic">Privacy Dashboard</a>
+                    <a href="#" class="magnetic">TOS</a>
+                    <a href="#" class="magnetic">System Status</a>
                 </div>
             </div>
         </footer>

@@ -14,12 +14,10 @@ const lenis = new Lenis({
 function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 
-// Lenis + GSAP sync
 lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => { lenis.raf(time * 1000); });
 gsap.ticker.lagSmoothing(0);
 
-// Random number utility for telemetry
 const getRandom = (min, max) => (Math.random() * (max - min) + min).toFixed(2);
 
 const initAnimations = () => {
@@ -38,7 +36,6 @@ const initAnimations = () => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
         gsap.to(cursor, { x: mouse.x, y: mouse.y, duration: 0.1, ease: "power2.out" });
-        // Delay each trail dot sequentially to create the "snake" or "plasma" effect
         trails.forEach((trail, i) => {
             gsap.to(trail, { x: mouse.x, y: mouse.y, duration: 0.4, delay: i * 0.05, ease: "power2.out" });
         });
@@ -52,14 +49,13 @@ const initAnimations = () => {
 
     // 4. Horizontal Scroll
     const horizontalSections = gsap.utils.toArray('.horizontal-panel, .panel-img');
-    gsap.to(horizontalSections, {
+    const horizontalTween = gsap.to(horizontalSections, {
         xPercent: -100 * (horizontalSections.length - 1), ease: "none",
         scrollTrigger: {
             trigger: '.horizontal-scroll-wrapper', pin: true, scrub: 1,
             snap: 1 / (horizontalSections.length - 1),
             start: "top top", end: () => "+=" + document.querySelector('.horizontal-scroll-container').offsetWidth,
             onUpdate: (self) => {
-                // Show telemetry widget aggressively during horizontal scroll
                 const telemetry = document.querySelector('.telemetry-widget');
                 if (self.progress > 0 && self.progress < 1) telemetry.classList.add('active');
                 else telemetry.classList.remove('active');
@@ -67,7 +63,57 @@ const initAnimations = () => {
         }
     });
 
-    // 5. Live Telemetry Random Data Injector
+    // 4b. Clip-Path kinetic reveal (triggered inside the horizontal scroll!)
+    gsap.to('.clip-reveal', {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        ease: "power3.inOut",
+        scrollTrigger: {
+            trigger: '.clip-reveal',
+            containerAnimation: horizontalTween,
+            start: "left center+=20%",
+            end: "right center",
+            scrub: 1
+        }
+    });
+    // Inner Image Scale-down effect
+    gsap.to('.inner-img', {
+        scale: 1,
+        ease: "none",
+        scrollTrigger: {
+            trigger: '.clip-reveal',
+            containerAnimation: horizontalTween,
+            start: "left center+=20%",
+            end: "right center",
+            scrub: true
+        }
+    });
+
+    // 5. Velocity Marquees
+    const marquees = gsap.utils.toArray('.marquee');
+    marquees.forEach((m) => {
+        const inner = m.querySelector('.marquee-inner');
+        const dir = parseFloat(m.dataset.direction);
+        gsap.to(inner, {
+            xPercent: -50 * dir, ease: "none",
+            scrollTrigger: { trigger: m, start: "top bottom", end: "bottom top", scrub: 1 }
+        });
+    });
+
+    // Velocity Proxy Tracker for Marquee Skew
+    let proxy = { skew: 0 },
+        skewSetter = gsap.quickSetter(".marquee-inner", "skewX", "deg"),
+        clamp = gsap.utils.clamp(-20, 20);
+    ScrollTrigger.create({
+      onUpdate: (self) => {
+        let skew = clamp(self.getVelocity() / -100);
+        if (Math.abs(skew) > Math.abs(proxy.skew)) {
+          proxy.skew = skew;
+          gsap.to(proxy, {skew: 0, duration: 0.8, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew)});
+        }
+      }
+    });
+
+    // 6. Live Telemetry
     setInterval(() => {
         const widget = document.querySelector('.telemetry-widget');
         if (widget.classList.contains('active')) {
@@ -75,9 +121,9 @@ const initAnimations = () => {
             document.getElementById('stat-latency').innerText = getRandom(0.9, 1.3);
             document.getElementById('stat-bw').innerText = Math.floor(getRandom(400, 500));
         }
-    }, 200); // 5 FPS fluctuations for tech feel
+    }, 200);
 
-    // 6. Globe.gl Initialization -> Replaces SVG
+    // 7. Globe.gl Initialization
     const gData = [
         { lat: 40.71, lng: -74.00, name: 'New York (US-East)', nodes: 4102, limit: 12.4 },
         { lat: 51.50, lng: -0.12, name: 'London (EU-West)', nodes: 2841, limit: 8.1 },
@@ -117,7 +163,32 @@ const initAnimations = () => {
     globe.controls().autoRotateSpeed = 1.0;
     globe.controls().enableZoom = false;
 
-    // 7. Immersive Text Reveal
+    // 8. Stacking Deck Tiers
+    const cards = gsap.utils.toArray('.stacked-card');
+    
+    // Hide cards 2 and 3 initially below frame
+    cards.forEach((c, i) => {
+        if(i !== 0) gsap.set(c, { yPercent: 150 });
+    });
+
+    const deckTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.deck-section',
+            pin: true,
+            scrub: 1,
+            start: "top top",
+            end: "+=200%" 
+        }
+    });
+
+    cards.forEach((card, i) => {
+        if(i === 0) return;
+        deckTl.to(card, { yPercent: i * 5, duration: 1 }, "-=0.5");
+        // Push previous card back physically
+        deckTl.to(cards[i-1], { scale: 0.95 - (i * 0.02), filter: "brightness(0.3)", duration: 1 }, "<");
+    });
+
+    // 9. Immersive Text Reveal
     const lines = gsap.utils.toArray('.line:not(.glow)');
     lines.forEach(line => {
         gsap.to(line, {
@@ -126,25 +197,22 @@ const initAnimations = () => {
         });
     });
 
-    // 8. Magnetic Footer Button
-    const btn = document.querySelector('.magnetic-btn');
-    if(btn) {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            gsap.to(btn, { x: (e.clientX - rect.left - rect.width/2) * 0.3, y: (e.clientY - rect.top - rect.height/2) * 0.3, duration: 0.5, ease: 'power3.out' });
+    // 10. Global Magnetic Tracking
+    const magnetics = document.querySelectorAll('.magnetic');
+    magnetics.forEach(mag => {
+        mag.addEventListener('mousemove', (e) => {
+            const rect = mag.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width/2) * 0.4;
+            const y = (e.clientY - rect.top - rect.height/2) * 0.4;
+            gsap.to(mag, { x: x, y: y, duration: 0.5, ease: 'power3.out' });
         });
-        btn.addEventListener('mouseleave', () => {
-            gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+        mag.addEventListener('mouseleave', () => {
+            gsap.to(mag, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
         });
-    }
-
-    // 9. Initialize Vanilla-Tilt programmatically
-    VanillaTilt.init(document.querySelectorAll(".tier-card"), {
-        max: 15,
-        speed: 400,
-        glare: true,
-        "max-glare": 0.4,
     });
+
+    // Initialize Vanilla-Tilt programmatically
+    VanillaTilt.init(document.querySelectorAll(".tier-card"), { max: 15, speed: 400, glare: true, "max-glare": 0.4 });
 };
 
 setTimeout(initAnimations, 600);
