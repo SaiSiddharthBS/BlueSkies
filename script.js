@@ -1,10 +1,15 @@
+if (history.scrollRestoration) {
+    history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 // Register JS Plugins
 gsap.registerPlugin(ScrollTrigger);
 
 // Initialize Smooth Scroll
 const lenis = new Lenis({
-    duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-    direction: 'vertical', gestureDirection: 'vertical', smooth: true, mouseMultiplier: 1,
+    duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+    direction: 'vertical', gestureDirection: 'vertical', smooth: true, wheelMultiplier: 0.8,
 });
 function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
