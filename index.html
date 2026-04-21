@@ -4,20 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueSkies Server | High Performance Infrastructure</title>
-    <meta name="description" content="Next-generation server infrastructure tailored for immense scalability and performance.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Plasma Trailing Cursor -->
+    <div class="cursor-trail"></div>
+    <div class="cursor-trail"></div>
+    <div class="cursor-trail"></div>
+    <div class="cursor-trail"></div>
     <div class="cursor"></div>
+
     <div class="loader">
         <div class="loader-text">INITIALIZING BLUESKIES SERVER...</div>
     </div>
 
-    <!-- Scrollytelling Container -->
+    <!-- Live Telemetry Widget (Fixed during specific scroll) -->
+    <div class="telemetry-widget">
+        <div class="telemetry-header">LIVE TELEMETRY</div>
+        <div class="telemetry-row">
+            <span class="label">ACTV_NODES:</span>
+            <span class="val" id="stat-nodes">14,204</span>
+        </div>
+        <div class="telemetry-row">
+            <span class="label">GLOBAL_LATENCY:</span>
+            <span class="val"><span id="stat-latency">1.04</span>ms</span>
+        </div>
+        <div class="telemetry-row">
+            <span class="label">BANDWIDTH_THRUPUT:</span>
+            <span class="val"><span id="stat-bw">450</span> Tbps</span>
+        </div>
+    </div>
+
     <main id="app">
         <!-- Hero Section -->
         <section class="section hero">
@@ -60,6 +81,59 @@
             </div>
         </section>
 
+        <!-- SVG Node Map Laser Connection -->
+        <section class="section map-section">
+            <h2 class="section-title centered glow-text">Global Edge Network</h2>
+            <div class="map-container">
+                <!-- SVG map simulating global routes -->
+                <svg viewBox="0 0 1000 500" class="laser-map" preserveAspectRatio="xMidYMid meet">
+                    <!-- Nodes -->
+                    <circle cx="200" cy="150" r="5" class="node" />
+                    <circle cx="450" cy="200" r="8" class="node master" />
+                    <circle cx="700" cy="120" r="5" class="node" />
+                    <circle cx="850" cy="300" r="5" class="node" />
+                    <circle cx="300" cy="350" r="5" class="node" />
+                    <!-- Connecting Laser Lines -->
+                    <path d="M 200 150 Q 325 120 450 200" class="laser-line" />
+                    <path d="M 450 200 Q 575 100 700 120" class="laser-line" />
+                    <path d="M 450 200 Q 650 350 850 300" class="laser-line" />
+                    <path d="M 450 200 Q 350 300 300 350" class="laser-line" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- 3D Compute Tiers (Vanilla-Tilt) -->
+        <section class="section tiers-section">
+            <h2 class="section-title centered">Compute <span class="highlight">Tiers</span></h2>
+            <div class="tier-container">
+                <div class="tier-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
+                    <h3>Sigma</h3>
+                    <p class="price">$19<span class="per">/mo</span></p>
+                    <ul class="features">
+                        <li>16 Cores</li><li>64GB RAM</li><li>10Gbps Uplink</li>
+                    </ul>
+                    <a href="#" class="tier-btn">Deploy Node</a>
+                </div>
+                <div class="tier-card featured" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
+                    <div class="featured-badge">MOST POPULAR</div>
+                    <h3>Quantum</h3>
+                    <p class="price">$49<span class="per">/mo</span></p>
+                    <ul class="features">
+                        <li>64 Cores</li><li>256GB RAM</li><li>40Gbps Uplink</li>
+                    </ul>
+                    <a href="#" class="tier-btn">Deploy Node</a>
+                </div>
+                <div class="tier-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5" data-tilt-scale="1.05">
+                    <h3>Zenith</h3>
+                    <p class="price">$149<span class="per">/mo</span></p>
+                    <ul class="features">
+                        <li>128 Cores</li><li>1TB RAM</li><li>100Gbps Uplink</li>
+                    </ul>
+                    <a href="#" class="tier-btn">Deploy Node</a>
+                </div>
+            </div>
+        </section>
+
         <!-- Immersive Reveal Section -->
         <section class="section data-impact">
             <div class="reveal-text-container">
@@ -72,7 +146,7 @@
         <!-- Footer / CTA -->
         <footer class="footer">
             <div class="footer-cta">
-                <h2 class="cta-text">Deploy Your Node</h2>
+                <h2 class="cta-text">Unleash the Power</h2>
                 <a href="#" class="btn magnetic-btn">Get Started <span class="btn-glow"></span></a>
             </div>
             <div class="footer-bottom">
@@ -86,10 +160,11 @@
         </footer>
     </main>
 
-    <!-- Dependencies via CDN -->
+    <!-- Dependencies -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     
     <!-- Application Logic -->
     <script src="script.js"></script>
