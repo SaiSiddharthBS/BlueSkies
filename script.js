@@ -72,18 +72,45 @@ const initAnimations = () => {
         }
     }, 200); // 5 FPS fluctuations for tech feel
 
-    // 6. SVG Laser Node Map Connection (Simulating DrawSVG)
-    const lasers = gsap.utils.toArray('.laser-line');
-    lasers.forEach(laser => {
-        // Calculate exact length of the SVG path
-        const length = laser.getTotalLength();
-        gsap.set(laser, { strokeDasharray: length, strokeDashoffset: length });
+    // 6. Globe.gl Initialization -> Replaces SVG
+    const gData = [
+        { lat: 40.71, lng: -74.00, name: 'New York (US-East)', nodes: 4102, limit: 12.4 },
+        { lat: 51.50, lng: -0.12, name: 'London (EU-West)', nodes: 2841, limit: 8.1 },
+        { lat: 35.67, lng: 139.65, name: 'Tokyo (AP-North)', nodes: 3904, limit: 14.2 },
+        { lat: 1.35, lng: 103.81, name: 'Singapore (AP-South)', nodes: 1520, limit: 5.6 },
+        { lat: 50.11, lng: 8.68, name: 'Frankfurt (EU-Central)', nodes: 5011, limit: 18.0 }
+    ];
+
+    const globe = Globe()
+        (document.getElementById('globe-container'))
+        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+        .backgroundColor('#030409')
+        .showAtmosphere(true)
+        .atmosphereColor('#0077ff')
+        .atmosphereAltitude(0.15)
+        .labelsData(gData)
+        .labelLat(d => d.lat)
+        .labelLng(d => d.lng)
+        .labelText(d => d.name)
+        .labelSize(1.5)
+        .labelDotRadius(0.5)
+        .labelColor(() => '#00f0ff')
+        .labelResolution(2)
+        .onLabelHover(hover => {
+             document.getElementById('globe-container').style.cursor = hover ? 'pointer' : 'move';
+        })
+        .labelLabel(d => `
+            <div class="scene-tooltip">
+                <strong>${d.name}</strong>
+                <div>Active Nodes: <span>${d.nodes.toLocaleString()}</span></div>
+                <div>Throughput: <span>${(d.limit * (Math.random() * 0.2 + 0.9)).toFixed(2)} Tbps</span></div>
+                <div>Local Latency: <span>${(Math.random() * 5 + 2).toFixed(1)}ms</span></div>
+            </div>
+        `);
         
-        gsap.to(laser, {
-            strokeDashoffset: 0,
-            scrollTrigger: { trigger: '.map-section', start: "top 60%", end: "center center", scrub: true }
-        });
-    });
+    globe.controls().autoRotate = true;
+    globe.controls().autoRotateSpeed = 1.0;
+    globe.controls().enableZoom = false;
 
     // 7. Immersive Text Reveal
     const lines = gsap.utils.toArray('.line:not(.glow)');

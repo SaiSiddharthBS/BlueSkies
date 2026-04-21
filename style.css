@@ -123,6 +123,19 @@ h1, h2, h3 { font-weight: 800; line-height: 1.1; }
     stroke-dashoffset: 1000;
 }
 
+/* Globe.gl Tooltip */
+.scene-tooltip {
+    background: rgba(5, 10, 15, 0.95);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+    border-radius: 8px; padding: 15px; color: #f0f0f0;
+    pointer-events: none; font-family: 'JetBrains Mono', monospace;
+    z-index: 99999;
+}
+.scene-tooltip strong { color: var(--accent-cyan); display: block; font-size: 1.1rem; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+.scene-tooltip div { margin-bottom: 4px; font-size: 0.85rem; }
+.scene-tooltip span { color: var(--accent-blue); font-weight: bold; }
+
 /* 3D Glassmorphic Tiers Section */
 .tiers-section { padding: 100px 5vw; background: radial-gradient(circle at top, #08111e 0%, var(--bg-dark) 80%); }
 .tier-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 60px; perspective: 1000px; }

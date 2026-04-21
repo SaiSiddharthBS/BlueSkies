@@ -81,25 +81,10 @@
             </div>
         </section>
 
-        <!-- SVG Node Map Laser Connection -->
-        <section class="section map-section">
-            <h2 class="section-title centered glow-text">Global Edge Network</h2>
-            <div class="map-container">
-                <!-- SVG map simulating global routes -->
-                <svg viewBox="0 0 1000 500" class="laser-map" preserveAspectRatio="xMidYMid meet">
-                    <!-- Nodes -->
-                    <circle cx="200" cy="150" r="5" class="node" />
-                    <circle cx="450" cy="200" r="8" class="node master" />
-                    <circle cx="700" cy="120" r="5" class="node" />
-                    <circle cx="850" cy="300" r="5" class="node" />
-                    <circle cx="300" cy="350" r="5" class="node" />
-                    <!-- Connecting Laser Lines -->
-                    <path d="M 200 150 Q 325 120 450 200" class="laser-line" />
-                    <path d="M 450 200 Q 575 100 700 120" class="laser-line" />
-                    <path d="M 450 200 Q 650 350 850 300" class="laser-line" />
-                    <path d="M 450 200 Q 350 300 300 350" class="laser-line" />
-                </svg>
-            </div>
+        <!-- Globe.gl Node Map -->
+        <section class="section map-section" style="position: relative;">
+            <h2 class="section-title centered glow-text" style="z-index: 10; position: absolute; top: 50px; left: 50%; transform: translateX(-50%); pointer-events: none;">Global Traffic Intelligence</h2>
+            <div id="globe-container" style="width: 100vw; height: 100vh; cursor: move;"></div>
         </section>
 
         <!-- 3D Compute Tiers (Vanilla-Tilt) -->
@@ -165,6 +150,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/globe.gl"></script>
     
     <!-- Application Logic -->
     <script src="script.js"></script>
